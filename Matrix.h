@@ -2,10 +2,10 @@
 #include<gmpxx.h>
 using namespace std;
 
-typedef mpq_class Q;
-typedef mpz_class Z;
-typedef vector<vector<Q> > Mat;
+using Q=mpq_class;
+using Z=mpz_class;
+template<class T> using Mat=vector<vector<T> >;
 
-template <class T> void printMatrix(const vector<vector<T> >&  m);
+template <class T> void printMatrix(const Mat<T>&  m);
 
-int matrixRank(Mat& m);
+template<class T> int matrixRank(Mat<T>& m);
