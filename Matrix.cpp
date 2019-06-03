@@ -3,7 +3,12 @@
 
 using namespace std;
 
-template <class T> void printMatrix(const vector<vector<T> >&  m){
+//使用する型について明示的にインスタンスを作る必要があるらしい
+template void printMatrix<Q>(const Mat<Q>& m);
+template int matrixRank<Q>(Mat<Q>& m);
+
+
+template <class T> void printMatrix(const Mat<T>&  m){
   for(int i=0;i<m.size();i++){
     for(int j=0;j<m[i].size();j++){
       cout<<m[i][j]<<" ";
@@ -12,7 +17,7 @@ template <class T> void printMatrix(const vector<vector<T> >&  m){
   }
   cout<<endl;
 }
-int matrixRank(Mat& m){
+template<class T> int matrixRank(Mat<T>& m){
   if(m.empty())return 0;
   int rank=0;
   for(int pivot=0;pivot<m[0].size();pivot++){
