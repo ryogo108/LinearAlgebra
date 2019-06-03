@@ -4,8 +4,18 @@
 using namespace std;
 
 //使用する型について明示的にインスタンスを作る必要があるらしい
+template void printVector<Q>(const vector<Q>& v);
 template void printMatrix<Q>(const Mat<Q>& m);
 template int matrixRank<Q>(Mat<Q>& m);
+template vector<Q> GaussianElimination(Mat<Q>& m);
+
+template <class T> void printVector(const vector<T>& v){
+  for(int i=0;i<v.size();i++){
+    if(i)cout<<" ";
+    cout<<v[i];
+  }
+  cout<<endl<<endl;
+}
 
 
 template <class T> void printMatrix(const Mat<T>&  m){
@@ -40,4 +50,34 @@ template<class T> int matrixRank(Mat<T>& m){
     }
   }
   return rank;
+}
+
+template<class T> vector<T> GaussianElimination(Mat<T>& A){
+  int rank=matrixRank(A);
+  vector<T> x(A[0].size(),0);
+  if(rank==A[0].size())return x;
+  int row=0;
+  int pick=0;
+  for(int j=0;j<A[0].size();j++){
+    if(row==rank){
+      x[j]=1;
+      pick=j;
+      break;
+    }
+    if(A[row][j]!=1){
+      x[j]=1;
+      pick=j;
+      break;
+    }
+    else row++;
+  }
+  row=0;
+  for(int j=0;j<A[0].size();j++){
+    if(A[row][j]==1){
+      x[j]=-1*A[row][pick];
+      row++;
+    }
+    if(row==rank)break;
+  }
+  return x;
 }
