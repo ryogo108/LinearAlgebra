@@ -9,6 +9,12 @@ template void printMatrix<Q>(const Mat<Q>& m);
 template int matrixRank<Q>(Mat<Q>& m);
 template vector<Q> GaussianElimination(Mat<Q>& m);
 
+template vector<Q> operator+(const vector<Q>& vl,const vector<Q>& vr);
+template vector<Q> operator-(const vector<Q>& vl,const vector<Q>& vr);
+template vector<Q> operator*(const vector<Q>& vl,const Q& r);
+template vector<Q> operator*(const Q& l,const vector<Q>& vr);
+template vector<Q> operator-(const vector<Q>& v);
+
 template <class T> void printVector(const vector<T>& v){
   for(int i=0;i<v.size();i++){
     if(i)cout<<" ";
@@ -80,4 +86,35 @@ template<class T> vector<T> GaussianElimination(Mat<T>& A){
     if(row==rank)break;
   }
   return x;
+}
+
+
+template<class T> vector<T> operator+(const vector<T>& vl,const vector<T>& vr){
+  if(vl.size()!=vr.size())throw invalid_argument("a vector cannot add to a vector which has different size");
+  vector<T> v(vl);
+  for(int i=0;i<v.size();i++)v[i]=v[i]+vr[i];
+  return v;
+}
+template <class T> vector<T> operator-(const vector<T>& vl,const vector<T>& vr){
+  if(vl.size()!=vr.size())throw invalid_argument("a vector cannot  subtract with a vector which has different size");
+  vector<T> v(vl);
+  for(int i=0;i<v.size();i++)v[i]=v[i]-vr[i];
+  return v;
+}
+template <class T> vector<T> operator*(const vector<T>& vl,const T& r){
+  vector<T> v(vl);
+  for(int i=0;i<v.size();i++)v[i]=v[i]*r;
+  return v;
+}
+template <class T> vector<T> operator*(const T& l,const vector<T>& vr){
+  vector<T> v(vr);
+  for(int i=0;i<v.size();i++)v[i]=v[i]*l;
+  return v;
+
+}
+template <class T> vector<T> operator-(const vector<T>& v){
+  vector<T> rev(v);
+  for(int i=0;i<rev.size();i++)rev[i]=-v[i];
+  return rev;
+
 }

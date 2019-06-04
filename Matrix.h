@@ -13,3 +13,10 @@ template<class T> int matrixRank(Mat<T>& m);
 
 //solve Ax=b
 template<class T> vector<T> GaussianElimination(Mat<T>& A);
+
+
+template <class T> vector<T> operator+(const vector<T>& vl,const vector<T>& vr);
+template <class T> vector<T> operator-(const vector<T>& vl,const vector<T>& vr);
+template <class T> vector<T> operator*(const vector<T>& vl,const T& r);
+template <class T> vector<T> operator*(const T& l,const vector<T>& vr);
+template <class T> vector<T> operator-(const vector<T>& v);
