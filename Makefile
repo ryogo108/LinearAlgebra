@@ -4,3 +4,5 @@ GaussianElimination: Matrix.cpp GaussianElimination.cpp
 	c++ -o GaussianElimination.out Matrix.cpp GaussianElimination.cpp -lgmp -lgmpxx -std=c++11 -stdlib=libc++
 MatrixOperation: Matrix.cpp MatrixOperation.cpp
 	c++ -o MatrixOperation.out Matrix.cpp MatrixOperation.cpp -lgmp -lgmpxx -std=c++11 -stdlib=libc++
+GenerateRandomMatrix: Matrix.cpp GenerateRandomMatrix.cpp
+	c++ -o GenerateRandomMatrix.out Matrix.cpp GenerateRandomMatrix.cpp -lgmp -lgmpxx -std=c++11 -stdlib=libc++
