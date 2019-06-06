@@ -1,4 +1,7 @@
 #include"Matrix.h"
+#include<iostream>
+
+using namespace std;
 
 int main(int argc,char* argv[]){
   int I=atoi(argv[1]),J=atoi(argv[2]);
@@ -8,7 +11,11 @@ int main(int argc,char* argv[]){
       A[i][j]=Q(argv[i*J+j+3]);
     }
   }
+  cout<<"A ="<<endl;
   printMatrix(A);
   vector<Q> x=GaussianElimination(A);
+  cout<<"x = ";
   printVector(x);
+  cout<<"Ax = ";
+  printVector(A*x);
 }
