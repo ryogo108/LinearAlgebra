@@ -6,6 +6,7 @@ using namespace std;
 //使用する型について明示的にインスタンスを作る必要があるらしい
 template void printVector<Q>(const vector<Q>& v);
 template void printMatrix<Q>(const Mat<Q>& m);
+template void printMatrixInRow<Q>(const Mat<Q>& m);
 template int matrixRank<Q>(Mat<Q>& m);
 template vector<Q> GaussianElimination(Mat<Q>& m);
 
@@ -39,6 +40,19 @@ template <class T> void printMatrix(const Mat<T>&  m){
       cout<<m[i][j]<<" ";
     }
     cout<<endl;
+  }
+  cout<<endl;
+}
+template <class T> void printMatrixInRow(const Mat<T>&  m){
+  if(m.empty()){
+    throw invalid_argument("empty matrix cannot be shown");
+  }
+  else cout<<m.size()<<" "<<m[0].size();
+  for(int i=0;i<m.size();i++){
+    for(int j=0;j<m[i].size();j++){
+      cout<<" ";
+      cout<<m[i][j]<<" ";
+    }
   }
   cout<<endl;
 }
