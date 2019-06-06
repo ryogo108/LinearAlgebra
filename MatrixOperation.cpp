@@ -27,6 +27,7 @@ int main(int argc,char* argv[]){
   printMatrix(A-(Q("1/2")*A));
   printMatrix(A/Q(2));
   printMatrix(-A);
-  printMatrix(A*A);
+  Mat<Q> B(J,vector<Q>(I,2));
+  printMatrix(A*B);
   printVector(A*A[0]);
 }
