@@ -57,11 +57,12 @@ template <class T> void printMatrixInRow(const Mat<T>&  m){
   cout<<endl;
 }
 template<class T> int matrixRank(Mat<T>& m){
+  //行列mのrankを求める
   if(m.empty())return 0;
-  int rank=0;
-  for(int pivot=0;pivot<m[0].size();pivot++){
+  int rank=0;//次のピボットが存在する行
+  for(int pivot=0;pivot<m[0].size();pivot++){//左から各列をピボットだとして探索する
     printMatrix(m);
-    for(int i=rank;i<m.size();i++){ //search nonzero pivot
+    for(int i=rank;i<m.size();i++){ //pivot列のrank行よりも下にに非零要素があればそれをピボットとして簡約化を行う。なければ、rankはそのまま次の列を探索する。
       if(m[i][pivot]!=0){
         m[rank].swap(m[i]);
         for(int j=m[rank].size()-1;j>=pivot;j--){ //normalize of pivot row
@@ -82,18 +83,19 @@ template<class T> int matrixRank(Mat<T>& m){
 }
 
 template<class T> vector<T> GaussianElimination(Mat<T>& A){
-  int rank=matrixRank(A);
+  //Ax=0を満たすxを一つ求める
+  int rank=matrixRank(A);//Aのrankを求める。同時にAは行基本変形により簡約化される。
   vector<T> x(A[0].size(),0);
-  if(rank==A[0].size())return x;
-  int row=0;
-  int pick=0;
-  for(int j=0;j<A[0].size();j++){
-    if(row==rank){
+  if(rank==A[0].size())return x;//xが自明な解のみを持つ場合。この時x=0
+  int row=0;//次にピボットとなる要素が存在する行
+  int pick=0;//ピボットでない最左の列
+  for(int j=0;j<A[0].size();j++){ //左から順にピボットになっていない列を探す
+    if(row==rank){//一番下まで探索し切った
       x[j]=1;
       pick=j;
       break;
     }
-    if(A[row][j]!=1){
+    if(A[row][j]!=1){//ピボットでない列が見つかった
       x[j]=1;
       pick=j;
       break;
@@ -101,7 +103,7 @@ template<class T> vector<T> GaussianElimination(Mat<T>& A){
     else row++;
   }
   row=0;
-  for(int j=0;j<A[0].size();j++){
+  for(int j=0;j<A[0].size();j++){//左から順にピボットなっている列を探す。その各列jに対しx[j]はpick列の要素*(-1)。ピボットでもpickでもない列j'はx[j']=0としている。
     if(A[row][j]==1){
       x[j]=-1*A[row][pick];
       row++;
