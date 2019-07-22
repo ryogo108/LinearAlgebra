@@ -13,7 +13,7 @@ template <class T> void printMatrixInRow(const Mat<T>&  m);
 template<class T> int matrixRank(Mat<T>& m);
 
 //solve Ax=b
-template<class T> vector<T> GaussianElimination(Mat<T>& A);
+template<class T> vector<vector<T> > GaussianElimination(Mat<T>& A);
 
 
 template <class T> vector<T> operator+(const vector<T>& vl,const vector<T>& vr);

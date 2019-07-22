@@ -13,9 +13,7 @@ int main(int argc,char* argv[]){
   }
   cout<<"A ="<<endl;
   printMatrix(A);
-  vector<Q> x=GaussianElimination(A);
-  cout<<"x = ";
-  printVector(x);
-  cout<<"Ax = ";
-  printVector(A*x);
+  vector<vector<Q> > KerA=GaussianElimination(A);
+  cout<<"KerA = "<<endl;
+  printMatrix(KerA);
 }

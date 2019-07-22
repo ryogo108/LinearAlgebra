@@ -8,7 +8,7 @@ template void printVector<Q>(const vector<Q>& v);
 template void printMatrix<Q>(const Mat<Q>& m);
 template void printMatrixInRow<Q>(const Mat<Q>& m);
 template int matrixRank<Q>(Mat<Q>& m);
-template vector<Q> GaussianElimination(Mat<Q>& m);
+template vector<vector<Q> > GaussianElimination(Mat<Q>& m);
 
 template vector<Q> operator+(const vector<Q>& vl,const vector<Q>& vr);
 template vector<Q> operator-(const vector<Q>& vl,const vector<Q>& vr);
@@ -79,38 +79,45 @@ template<class T> int matrixRank(Mat<T>& m){
       }
     }
   }
+  printMatrix(m);
   return rank;
 }
 
-template<class T> vector<T> GaussianElimination(Mat<T>& A){
-  //Ax=0を満たすxを一つ求める
+template<class T> vector< vector<T> > GaussianElimination(Mat<T>& A){
+  //Ax=0の解空間の基底を全て求める
   int rank=matrixRank(A);//Aのrankを求める。同時にAは行基本変形により簡約化される。
   vector<T> x(A[0].size(),0);
-  if(rank==A[0].size())return x;//xが自明な解のみを持つ場合。この時x=0
+  vector<vector<T> >re;
+  if(rank==A[0].size()){
+    re.push_back(x);
+    return re;//xが自明な解のみを持つ場合。
+  }
   int row=0;//次にピボットとなる要素が存在する行
-  int pick=0;//ピボットでない最左の列
+  vector<int> pick;//ピボットでない列のindex
+  re.clear();
   for(int j=0;j<A[0].size();j++){ //左から順にピボットになっていない列を探す
     if(row==rank){//一番下まで探索し切った
-      x[j]=1;
-      pick=j;
-      break;
+      pick.push_back(j);
     }
-    if(A[row][j]!=1){//ピボットでない列が見つかった
-      x[j]=1;
-      pick=j;
-      break;
+    else if(A[row][j]!=1){//ピボットでない列が見つかった
+      pick.push_back(j);
     }
     else row++;
   }
-  row=0;
-  for(int j=0;j<A[0].size();j++){//左から順にピボットなっている列を探す。その各列jに対しx[j]はpick列の要素*(-1)。ピボットでもpickでもない列j'はx[j']=0としている。
-    if(A[row][j]==1){
-      x[j]=-1*A[row][pick];
-      row++;
+  for(int i=0;i<pick.size();i++){
+    x=vector<T>(A[0].size(),0);
+    x[pick[i]]=1;
+    row=0;
+    for(int j=0;j<A[0].size();j++){//左から順にピボットなっている列を探す。その各列jに対しx[j]はpick列の要素*(-1)。ピボットでもpickでもない列j'はx[j']=0としている。
+      if(A[row][j]==1){
+        x[j]=-1*A[row][pick[i]];
+        row++;
+     }
+     if(row==rank)break;
     }
-    if(row==rank)break;
+    re.push_back(x);
   }
-  return x;
+  return re;
 }
 
 

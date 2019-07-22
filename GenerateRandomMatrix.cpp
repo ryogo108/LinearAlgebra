@@ -7,7 +7,9 @@ template<class T> T generateRandomValue(unsigned long seed);
 template<> Q generateRandomValue(unsigned long seed){
   gmp_randclass r1(gmp_randinit_mt);
   r1.seed(seed);
-  return Q(r1.get_z_bits(Z(10)));
+  Q re=Q(r1.get_z_bits(Z(3)));
+  if(re>Q(2))re=Q(0);
+  return re;
 
 }
 
