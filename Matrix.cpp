@@ -86,7 +86,7 @@ template<class T> int matrixRank(Mat<T>& m){
 template<class T> vector< vector<T> > GaussianElimination(Mat<T>& A){
   //Ax=0の解空間の基底を全て求める
   int rank=matrixRank(A);//Aのrankを求める。同時にAは行基本変形により簡約化される。
-  vector<T> x(A[0].size(),0);
+  vector<T> x(A[0].size(),T(0));
   vector<vector<T> >re;
   if(rank==A[0].size()){
     re.push_back(x);
@@ -99,18 +99,18 @@ template<class T> vector< vector<T> > GaussianElimination(Mat<T>& A){
     if(row==rank){//一番下まで探索し切った
       pick.push_back(j);
     }
-    else if(A[row][j]!=1){//ピボットでない列が見つかった
+    else if(A[row][j]!=T(1)){//ピボットでない列が見つかった
       pick.push_back(j);
     }
     else row++;
   }
   for(int i=0;i<pick.size();i++){
-    x=vector<T>(A[0].size(),0);
-    x[pick[i]]=1;
+    x=vector<T>(A[0].size(),T(0));
+    x[pick[i]]=T(1);
     row=0;
     for(int j=0;j<A[0].size();j++){//左から順にピボットなっている列を探す。その各列jに対しx[j]はpick列の要素*(-1)。ピボットでもpickでもない列j'はx[j']=0としている。
-      if(A[row][j]==1){
-        x[j]=-1*A[row][pick[i]];
+      if(A[row][j]==T(1)){
+        x[j]=T(-1)*A[row][pick[i]];
         row++;
      }
      if(row==rank)break;
