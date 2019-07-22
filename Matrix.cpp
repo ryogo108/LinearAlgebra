@@ -79,6 +79,7 @@ template<class T> int matrixRank(Mat<T>& m){
       }
     }
   }
+  printMatrix(m);
   return rank;
 }
 
