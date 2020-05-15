@@ -1,29 +1,33 @@
-#include"Matrix.h"
 #include<iostream>
-
+#include<vector>
 using namespace std;
 
-//使用する型について明示的にインスタンスを作る必要があるらしい
-template void printVector<Q>(const vector<Q>& v);
-template void printMatrix<Q>(const Mat<Q>& m);
-template void printMatrixInRow<Q>(const Mat<Q>& m);
-template int matrixRank<Q>(Mat<Q>& m);
-template vector<vector<Q> > GaussianElimination(Mat<Q>& m);
+template<class T> using Mat=vector<vector<T> >;
 
-template vector<Q> operator+(const vector<Q>& vl,const vector<Q>& vr);
-template vector<Q> operator-(const vector<Q>& vl,const vector<Q>& vr);
-template vector<Q> operator*(const vector<Q>& vl,const Q& r);
-template vector<Q> operator*(const Q& l,const vector<Q>& vr);
-template vector<Q> operator-(const vector<Q>& v);
+template <class T> void printVector(const vector<T>& v);
+template <class T> void printMatrix(const Mat<T>&  m);
+template <class T> void printMatrixInRow(const Mat<T>&  m);
 
-template vector<Q> operator*(const Mat<Q>& ml,const vector<Q>& vr);
-template Mat<Q> operator+(const Mat<Q>& ml,const Mat<Q>& mr);
-template Mat<Q> operator-(const Mat<Q>& ml,const Mat<Q>& mr);
-template Mat<Q> operator*(const Mat<Q>& ml,const Mat<Q>& mr);
-template Mat<Q> operator*(const Q& l,const Mat<Q>& mr);
-template Mat<Q> operator*(const Mat<Q>& ml,const Q& r);
-template Mat<Q> operator/(const Mat<Q>& ml,const Q& r);
-template Mat<Q> operator-(const Mat<Q>& m);
+template<class T> int matrixRank(Mat<T>& m);
+
+//solve Ax=b
+template<class T> vector<vector<T> > GaussianElimination(Mat<T>& A);
+
+
+template <class T> vector<T> operator+(const vector<T>& vl,const vector<T>& vr);
+template <class T> vector<T> operator-(const vector<T>& vl,const vector<T>& vr);
+template <class T> vector<T> operator*(const vector<T>& vl,const T& r);
+template <class T> vector<T> operator*(const T& l,const vector<T>& vr);
+template <class T> vector<T> operator-(const vector<T>& v);
+
+template <class T> vector<T> operator*(const Mat<T>& ml,const vector<T>& vr);
+template <class T> Mat<T> operator+(const Mat<T>& ml,const Mat<T>& mr);
+template <class T> Mat<T> operator-(const Mat<T>& ml,const Mat<T>& mr);
+template <class T> Mat<T> operator*(const Mat<T>& ml,const Mat<T>& mr);
+template <class T> Mat<T> operator*(const T& l,const Mat<T>& mr);
+template <class T> Mat<T> operator*(const Mat<T>& ml,const T& r);
+template <class T> Mat<T> operator/(const Mat<T>& ml,const T& r);
+template <class T> Mat<T> operator-(const Mat<T>& m);
 
 template <class T> void printVector(const vector<T>& v){
   for(int i=0;i<v.size();i++){
@@ -63,7 +67,7 @@ template<class T> int matrixRank(Mat<T>& m){
   for(int pivot=0;pivot<m[0].size();pivot++){//左から各列をピボットだとして探索する
     printMatrix(m);
     for(int i=rank;i<m.size();i++){ //pivot列のrank行よりも下にに非零要素があればそれをピボットとして簡約化を行う。なければ、rankはそのまま次の列を探索する。
-      if(m[i][pivot]!=0){
+      if(m[i][pivot]!=T(0)){
         m[rank].swap(m[i]);
         for(int j=m[rank].size()-1;j>=pivot;j--){ //normalize of pivot row
            m[rank][j]/=m[rank][pivot];
@@ -86,7 +90,7 @@ template<class T> int matrixRank(Mat<T>& m){
 template<class T> vector< vector<T> > GaussianElimination(Mat<T>& A){
   //Ax=0の解空間の基底を全て求める
   int rank=matrixRank(A);//Aのrankを求める。同時にAは行基本変形により簡約化される。
-  vector<T> x(A[0].size(),0);
+  vector<T> x(A[0].size(),T(0));
   vector<vector<T> >re;
   if(rank==A[0].size()){
     re.push_back(x);
@@ -99,18 +103,18 @@ template<class T> vector< vector<T> > GaussianElimination(Mat<T>& A){
     if(row==rank){//一番下まで探索し切った
       pick.push_back(j);
     }
-    else if(A[row][j]!=1){//ピボットでない列が見つかった
+    else if(A[row][j]!=T(1)){//ピボットでない列が見つかった
       pick.push_back(j);
     }
     else row++;
   }
   for(int i=0;i<pick.size();i++){
-    x=vector<T>(A[0].size(),0);
-    x[pick[i]]=1;
+    x=vector<T>(A[0].size(),T(0));
+    x[pick[i]]=T(1);
     row=0;
     for(int j=0;j<A[0].size();j++){//左から順にピボットなっている列を探す。その各列jに対しx[j]はpick列の要素*(-1)。ピボットでもpickでもない列j'はx[j']=0としている。
       if(A[row][j]==1){
-        x[j]=-1*A[row][pick[i]];
+        x[j]=(-T(1))*A[row][pick[i]];
         row++;
      }
      if(row==rank)break;

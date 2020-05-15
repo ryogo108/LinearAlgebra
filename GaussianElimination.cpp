@@ -1,7 +1,11 @@
-#include"Matrix.h"
+#include"Matrix.cpp"
 #include<iostream>
 
+#include<gmpxx.h>
 using namespace std;
+
+using Q=mpq_class;
+using Z=mpz_class;
 
 int main(int argc,char* argv[]){
   /*int I=atoi(argv[1]),J=atoi(argv[2]);
@@ -21,9 +25,9 @@ int main(int argc,char* argv[]){
       A[i][j]=Q(x);
     }
   }
-  cout<<"A ="<<endl;
+  cout<<endl<<"A ="<<endl;
   printMatrix(A);
   vector<vector<Q> > KerA=GaussianElimination(A);
-  cout<<"KerA = "<<endl;
+  cout<<"Basis of KerA = "<<endl;
   printMatrix(KerA);
 }

@@ -1,9 +1,12 @@
-#include"Matrix.h"
+#include"Matrix.cpp"
 #include<iostream>
 #include<stdexcept>
 #include<string>
-
+#include<gmpxx.h>
 using namespace std;
+
+using Q=mpq_class;
+using Z=mpz_class;
 
 
 
@@ -26,7 +29,7 @@ int main(int argc,char* argv[]){
     }
   }
   printMatrix(A);
-  Q a=Q("3/2");
+  Q a=Q("2/3");
   printVector(A[0]);
   printVector(A[0]+A[1]);
   printVector(A[0]-A[1]);
@@ -34,7 +37,7 @@ int main(int argc,char* argv[]){
   printVector(Q(3)*A[0]);
   printMatrix(Q(3)*A);
   printMatrix(A+A);
-  printMatrix(A-(Q("1/2")*A));
+  printMatrix(A-(Q(2)*A));
   printMatrix(A/Q(2));
   printMatrix(-A);
   Mat<Q> B(J,vector<Q>(I,2));

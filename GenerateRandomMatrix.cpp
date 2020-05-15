@@ -1,14 +1,18 @@
 #include<iostream>
-#include"Matrix.h"
+#include"Matrix.cpp"
 
+#include<gmpxx.h>
 using namespace std;
+
+using Q=mpq_class;
+using Z=mpz_class;
 
 template<class T> T generateRandomValue(unsigned long seed);
 template<> Q generateRandomValue(unsigned long seed){
   gmp_randclass r1(gmp_randinit_mt);
   r1.seed(seed);
   Q re=Q(r1.get_z_bits(Z(3)));
-  if(re>Q(2))re=Q(0);
+  if(re>Q(3))re=Q(0);
   return re;
 
 }

@@ -1,5 +1,10 @@
 #include<iostream>
-#include"Matrix.h"
+#include"Matrix.cpp"
+#include<gmpxx.h>
+using namespace std;
+
+using Q=mpq_class;
+using Z=mpz_class;
 
 int main(int argc,char* argv[]){
   /*int I=atoi(argv[1]),J=atoi(argv[2]);
